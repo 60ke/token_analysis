@@ -123,9 +123,13 @@ func getStepper(chainType string) uint64 {
 
 func Suscribe(chainType string) {
 	Logger.Infof("订阅%s出块\n", chainType)
+
+start:
 	web3, err := getWeb3(chainType)
 	if err != nil {
-		return
+		Logger.Error(err)
+		time.Sleep(10 * time.Second)
+		goto start
 	}
 	var fromBlock string
 	stepper := getStepper(chainType)
